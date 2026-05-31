@@ -104,6 +104,10 @@ setup_dotfiles() {
   stow claude
   stow codex
   stow pi
+  cd "$HOME/.pi/agent/"
+  mise exec node@lts -- npm install
+  cd "$HOME/dotfiles"
+
   stow themes
 
   bash "$HOME/.local/scripts/change_theme" gruvbox
