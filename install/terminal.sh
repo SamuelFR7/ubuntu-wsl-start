@@ -132,12 +132,12 @@ install_lazygit() {
   fi
 
   case "$(dpkg --print-architecture)" in
-    amd64) arch="x86_64" ;;
-    arm64) arch="arm64" ;;
-    *)
-      echo "lazygit is essential but has no configured binary mapping for architecture: $(dpkg --print-architecture)" >&2
-      return 1
-      ;;
+  amd64) arch="x86_64" ;;
+  arm64) arch="arm64" ;;
+  *)
+    echo "lazygit is essential but has no configured binary mapping for architecture: $(dpkg --print-architecture)" >&2
+    return 1
+    ;;
   esac
 
   release_json="$(curl -fsSL https://api.github.com/repos/jesseduffield/lazygit/releases/latest)"
@@ -166,12 +166,12 @@ install_fastfetch() {
   local arch release_json asset_url tmp_dir
 
   case "$(dpkg --print-architecture)" in
-    amd64) arch="amd64" ;;
-    arm64) arch="aarch64" ;;
-    *)
-      echo "fastfetch not installed: no configured official release asset for architecture $(dpkg --print-architecture)." >&2
-      return
-      ;;
+  amd64) arch="amd64" ;;
+  arm64) arch="aarch64" ;;
+  *)
+    echo "fastfetch not installed: no configured official release asset for architecture $(dpkg --print-architecture)." >&2
+    return
+    ;;
   esac
 
   release_json="$(curl -fsSL https://api.github.com/repos/fastfetch-cli/fastfetch/releases/latest)"
@@ -257,13 +257,14 @@ configure_shell() {
   sudo usermod --shell "$(command -v zsh)" "$USER"
 }
 
-configure_mise_and_codex() {
+configure_mise_and_codex_and_pi() {
   export PATH="$HOME/.local/share/mise/shims:$PATH"
 
   mise settings add idiomatic_version_file_enable_tools node || true
   mise settings add idiomatic_version_file_enable_tools python || true
   mise use -g node@lts
   mise exec node@lts -- npm install -g @openai/codex
+  mise exec node@lts -- npm install -g --ignore-scripts @earendil-works/pi-coding-agent
   mise reshim node || true
 }
 
@@ -280,7 +281,7 @@ configure_command_aliases
 configure_tmux
 configure_docker_group
 configure_shell
-configure_mise_and_codex
+configure_mise_and_codex_and_pi
 
 # Not installed:
 # - ffmpegthumbnailer, libnotify, wl-clipboard: skipped because this WSL bootstrap avoids desktop-adjacent tools.

@@ -103,6 +103,10 @@ setup_dotfiles() {
   stow skills
   stow claude
   stow codex
+  stow pi
+  stow themes
+
+  bash "$HOME/.local/scripts/change_theme" gruvbox
 }
 
 require_command docker
