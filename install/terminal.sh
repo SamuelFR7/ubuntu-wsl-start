@@ -263,6 +263,7 @@ configure_mise_and_codex_and_pi() {
   mise settings add idiomatic_version_file_enable_tools node || true
   mise settings add idiomatic_version_file_enable_tools python || true
   mise use -g node@lts
+  mise use -g python@3.14
   mise exec node@lts -- npm install -g @openai/codex
   mise exec node@lts -- npm install -g --ignore-scripts @earendil-works/pi-coding-agent
   mise reshim node || true
