@@ -50,39 +50,47 @@ EOF
 }
 
 install_apt_packages() {
-  sudo apt-get update
-  sudo apt-get install -y \
-    1password-cli \
-    bat \
-    btop \
-    build-essential \
-    docker-buildx-plugin \
-    docker-ce \
-    docker-ce-cli \
-    docker-compose-plugin \
-    doppler \
-    eza \
-    fd-find \
-    fzf \
-    gh \
-    git-crypt \
-    jq \
-    less \
-    mise \
-    neovim \
-    nodejs \
-    npm \
-    openjdk-17-jdk \
-    openjdk-21-jdk \
-    openssh-client \
-    php8.3 \
-    php8.3-fpm \
-    php8.3-gd \
-    postgresql-client \
-    ripgrep \
-    stow \
-    tmux \
+  local packages=(
+    1password-cli
+    bat
+    btop
+    build-essential
+    docker-buildx-plugin
+    docker-ce
+    docker-ce-cli
+    docker-compose-plugin
+    doppler
+    eza
+    fd-find
+    fzf
+    gh
+    git-crypt
+    jq
+    less
+    mise
+    neovim
+    nodejs
+    npm
+    openjdk-17-jdk
+    openjdk-21-jdk
+    openssh-client
+    php-cli
+    php-fpm
+    php-gd
+    postgresql-client
+    ripgrep
+    stow
+    tmux
     zsh
+  )
+
+  sudo apt-get update
+
+  if apt-cache show lazygit &>/dev/null; then
+    packages+=(lazygit)
+  fi
+
+  sudo apt-get install -y "${packages[@]}"
 }
 
 install_rustup() {
@@ -118,6 +126,10 @@ install_starship() {
 
 install_lazygit() {
   local arch release_json asset_url tmp_dir
+
+  if command -v lazygit &>/dev/null; then
+    return
+  fi
 
   case "$(dpkg --print-architecture)" in
     amd64) arch="x86_64" ;;

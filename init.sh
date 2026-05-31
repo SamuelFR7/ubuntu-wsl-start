@@ -18,9 +18,12 @@ if [[ "${ID:-}" != "ubuntu" ]]; then
   exit 1
 fi
 
-if [[ "${VERSION_ID:-}" != "24.04" ]]; then
-  echo "Warning: this bootstrap targets Ubuntu 24.04 LTS. Detected: ${PRETTY_NAME:-unknown}." >&2
-fi
+case "${VERSION_ID:-}" in
+  24.04 | 26.04) ;;
+  *)
+    echo "Warning: this bootstrap targets Ubuntu 24.04/26.04 LTS. Detected: ${PRETTY_NAME:-unknown}." >&2
+    ;;
+esac
 
 is_wsl() {
   grep -qiE "(microsoft|wsl)" /proc/version /proc/sys/kernel/osrelease 2>/dev/null
