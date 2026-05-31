@@ -102,6 +102,7 @@ setup_dotfiles() {
   stow zsh
   stow skills
   stow claude
+  stow codex
 }
 
 require_command docker
