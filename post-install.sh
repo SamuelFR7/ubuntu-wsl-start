@@ -101,7 +101,6 @@ setup_dotfiles() {
   rm -f "$HOME/.zshrc"
   stow zsh
   stow skills
-  stow claude
   stow codex
   stow pi
   cd "$HOME/.pi/agent/"
